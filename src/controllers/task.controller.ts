@@ -1,30 +1,31 @@
 import { Request, Response } from "express";
-import userService from "../services/user.service";
+import taskService from "../services/task.service"
 
-export class UserController {
-
+export class TaskController {
     public async index(req: Request, res: Response) {
         try {
-            const user = await userService.findAll()
+            const task = await taskService.findAll();
 
-            return res.status(user.code).send(user)
+            return res.status(task.code).send(task);
+
         } catch (error: any) {
             res.status(500).send({
                 ok: false,
                 message: error.toString()
             })
-        }
+        };
     };
 
     public async create(req: Request, res: Response) {
         try {
-            const { name, email, password } = req.body;
+            const { title, description } = req.body;
 
-            const result = await userService.create({
-                name, email, password
+            const result = await taskService.create({
+                title,
+                description,
             });
 
-            return res.status(200).send(result);
+            return res.status(result.code).send(result);
 
         } catch (error: any) {
             res.status(500).send({
@@ -37,29 +38,13 @@ export class UserController {
     public async update(req: Request, res: Response) {
         try {
             const { id } = req.params;
-            const { name, email, password } = req.body;
+            const { title, description } = req.body;
 
-            const result = await userService.update({
+            const result = await taskService.update({
                 id,
-                name,
-                email,
-                password
+                title,
+                description,
             });
-
-            return res.status(result.code).send(result);
-        } catch (error: any) {
-            res.status(500).send({
-                ok: false,
-                message: error.toString()
-            });
-        };
-    };
-
-    public async delete(req: Request, res: Response) {
-        try {
-            const { id } = req.params;
-
-            const result = await userService.delete(id);
 
             return res.status(result.code).send(result);
 
@@ -68,7 +53,22 @@ export class UserController {
                 ok: false,
                 message: error.toString()
             })
-        }
+        };
+    };
 
+    public async delete(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+
+            const result = await taskService.delete(id);
+
+            return res.status(result.code).send(result);
+
+        } catch (error: any) {
+            res.status(500).send({
+                ok: false,
+                message: error.toString()
+            });
+        };
     };
 };

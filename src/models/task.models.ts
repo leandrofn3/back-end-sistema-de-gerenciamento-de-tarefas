@@ -3,7 +3,7 @@ import { v4 as createUuid } from "uuid"
 export class TaskModel {
     private _idTask: string
 
-    constructor(private _title: string, private _description: string, private _idUser: string) {
+    constructor(private _title: string, private _description: string) {
         this._idTask = createUuid()
     }
 
@@ -19,16 +19,13 @@ export class TaskModel {
         return this._description;
     };
 
-    public get idUser() {
-        return this._idUser;
-    };
+
 
     public get toJson() {
         return({
             id: this.idTask,
             title: this.title,
             description: this.description,
-            idUser: this.idUser
         });
     };
 }
