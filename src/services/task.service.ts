@@ -1,3 +1,4 @@
+import { title } from "process";
 import { repository } from "../database/prisma.database";
 import { CreateTaskDto, UpdateTaskDto } from "../dtos/Task.dto";
 import { ResponseDto } from "../dtos/response.dto";
@@ -16,6 +17,13 @@ class TaskService {
 
     public async create(data: CreateTaskDto) {
         const task = new TaskModel(data.title, data.description);
+
+        if(data.title === "" || data.description === "" || !data.title || !data.description){
+            return {
+                code: 400,
+                message: "All data must be passed!",
+            }
+        }
 
         const createTask = await repository.task.create({
             data: {
