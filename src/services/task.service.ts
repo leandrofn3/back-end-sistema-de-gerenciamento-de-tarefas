@@ -66,7 +66,7 @@ class TaskService {
 
         return {
             code: 200,
-            message: "User successfully updated!",
+            message: "task successfully updated!",
             data: updateTask
         };
     };
@@ -81,7 +81,7 @@ class TaskService {
         if (!task) {
             return {
                 code: 404,
-                message: "User not found!"
+                message: "task not found!"
             };
         };
 
